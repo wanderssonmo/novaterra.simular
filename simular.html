@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Financiamento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+               
+    <main class="container">
+         <!-- 🔹 Parágrafo destacado no topo -->
+        <section class="info-financiamento">
+
+            <p>
+                <strong>As 50 primeiras parcelas são isentas de juros!</strong>  
+                  A partir da <strong>51ª parcela</strong>, será aplicada uma taxa de <strong>1,55% ao mês</strong>, calculada conforme <em>Tabela Price.</em>
+            </p>
+        </section>
+        <!-- 🔹 fim do parágrafo -->
+
+
+    <h1>Simulação - Nova Terra Adm</h1>
+    <form id="financiamento-form">
+        <label for="valor-financiado">Valor atual (R$):</label>
+        <input type="number" id="valor-financiado" placeholder="Ex: 10000,00" required aria-label="Digite o valor do financiamento">
+
+        <label for="entrada-input">Valor da Entrada (R$):</label>
+        <input type="number" id="entrada-input" placeholder="Ex: 2000,00" required aria-label="Digite o valor da entrada">
+
+
+        <label for="parcelas">Número de Parcelas:</label>
+        <input type="number" id="parcelas" min="1" max="120" placeholder="Ex: 120" required aria-label="Digite o número de parcelas">
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    <section id="resultado" aria-live="polite">
+        <h2>Simulação de parcelamento</h2>
+
+        <div class="resultado-bloco">
+            <h3>Entrada</h3>
+            <p><strong>Valor:</strong> <span id="entrada-resultado"></span></p>
+            <p><strong>Porcentagem:</strong> <span id="entrada-porcentagem"></span>%</p>
+        </div>
+
+        <div class="resultado-bloco">
+            <h3>Parcelas</h3>
+            <p><strong>Sem juros:</strong> <span id="parcelas-sem-juros-qtd"></span><span id="parcelas-sem-juros"></span></p>
+            <p><strong>Com juros (1,5%):</strong> <span id="parcelas-com-juros-qtd"></span><span id="parcelas-com-juros"></span></p>
+        </div>
+
+        <div class="resultado-bloco total">
+            <h3>Total do parcelamento</h3>
+            <p><strong>Total a pagar:</strong> <span id="total-pago"></span></p>
+        </div>
+
+        <div class="botoes-acao">
+            <button id="nova-simulacao" class="btn-limpar">Nova Simulação</button>
+            <button id="compartilhar" class="btn-share">Compartilhar</button>
+        </div>
+
+        <!-- opções escondidas -->
+        <!--<div id="opcoes-compartilhar" class="opcoes-compartilhar">
+        <a id="share-whatsapp" target="_blank">📱 WhatsApp</a>
+        <a id="share-email" target="_blank">✉️ E-mail</a>
+        </div> -->
+    </section>
+
+    <!-- Modal de Compartilhamento -->
+    <div id="modal-compartilhar" class="modal">
+    <div class="modal-conteudo">
+        <h3>Compartilhar Simulação</h3>
+        <div class="botoes-modal">
+        <a id="share-whatsapp" target="_blank" class="btn-whatsapp">📱 WhatsApp</a>
+        <a id="share-email" target="_blank" class="btn-email">✉️ E-mail</a>
+        </div>
+        <button id="fechar-modal" class="btn-fechar">Fechar</button>
+    </div>
+    </div>
+
+        <script src="script.js"></script>
+</body>
+</html>
