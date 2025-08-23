@@ -57,7 +57,7 @@ waitForElement('#btn-top-compartilhar', (botao) => {
       try {
         await navigator.share({
           title: 'Nova Terra Adm - Lotes e Chácaras',
-          text: 'Conheça os lotes e chácaras da Nova Terra Administradora de Imóveis!',
+          text: 'Simulação oline de forma prática e rápida.',
           url: window.location.href
         });
       } catch (err) {
