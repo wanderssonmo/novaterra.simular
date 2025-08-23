@@ -3,82 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Financiamento</title>
+    <title>Nova Terra - Simulador de Parcelamento</title>
+    <link rel="shortcut icon" href="imagens/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- faz parte do Font Awesome, uma biblioteca de ícones. Se a biblioteca não estiver carregada no seu projeto, os ícones não aparecerão.-->
+     <meta property="og:image" content="https://novaterra-simular.vercel.app/imagens/capa-de-compartilhar2.jpg">
+  <meta property="og:url" content="https://novaterra-simular.vercel.app/">
+
+  <meta name="description" content="Excelente oportunidade, invista no seu futuro!">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="rascunho-header.css">
+
 </head>
 <body>
-               
-    <main class="container">
-         <!-- 🔹 Parágrafo destacado no topo -->
-        <section class="info-financiamento">
+    <!-- 🔹 HEADER PROFISSIONAL -->
+    <header>
+      <nav class="header-nav">
+        <a href="index.html" class="logo">
+          <img
+            src="imagens/logo_cabecalho.png"
+            alt="Logo do logo do cabecalho"
+          />
+        </a>
 
+        <div class="header-title">
+          <h1><strong>SIMULAÇÃO DE PARCELAMENTO</strong></h1>
+        </div>
+
+        <!-- 👇BOTÕES DAS REDES SOCIAIS-->
+        <div class="icone-rede-social">
+          <a
+            href="https://www.instagram.com/imobiliaria.novaterra/"
+            target="_blank"
+            rel="noopener"
+            class="botao-social">
+            <i class="fab fa-instagram"></i>
+          </a>
+
+          <a
+            href="https://wa.me/5538992022019"
+            target="_blank"
+            rel="noopener"
+            class="botao-social">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+
+          <button
+            class="btn-top-compartilhar"
+            id="btn-top-compartilhar"
+            aria-label="Compartilhar página">
+            <i class="fas fa-share-alt"></i>
+          </button>
+        </div>
+        <!-- 👆 BOTÕES DAS REDES SOCIAIS-->
+      </nav>
+    </header>
+    <!-- 🔹 FIM DO HEADER -->
+
+    <!-- 🔹 Parágrafo destacado no topo -->
+        <section class="info-financiamento">
             <p>
                 <strong>As 50 primeiras parcelas são isentas de juros!</strong>  
-                  A partir da <strong>51ª parcela</strong>, será aplicada uma taxa de <strong>1,55% ao mês</strong>, calculada conforme <em>Tabela Price.</em>
+                A partir da <strong>51ª parcela</strong>, será aplicada uma taxa de <strong>1,5% ao mês</strong>, calculada conforme <em>Tabela Price.</em>
             </p>
         </section>
         <!-- 🔹 fim do parágrafo -->
 
+    <main class="container">
+        <!-- 🔹 Parágrafo destacado no topo -->
 
-    <h1>Simulação - Nova Terra Adm</h1>
-    <form id="financiamento-form">
-        <label for="valor-financiado">Valor atual (R$):</label>
-        <input type="number" id="valor-financiado" placeholder="Ex: 10000,00" required aria-label="Digite o valor do financiamento">
+        <h1>Simulação aqui</h1>
+        <form id="financiamento-form">
+            <label for="valor-financiado">Valor atual (R$):</label>
+            <input type="number" id="valor-financiado" placeholder="Ex: 10000,00" required aria-label="Digite o valor do financiamento">
 
-        <label for="entrada-input">Valor da Entrada (R$):</label>
-        <input type="number" id="entrada-input" placeholder="Ex: 2000,00" required aria-label="Digite o valor da entrada">
+            <label for="entrada-input">Valor da Entrada (R$):</label>
+            <input type="number" id="entrada-input" placeholder="Ex: 2000,00" required aria-label="Digite o valor da entrada">
 
+            <label for="parcelas">Número de Parcelas:</label>
+            <input type="number" id="parcelas" min="1" max="120" placeholder="Ex: 120" required aria-label="Digite o número de parcelas">
 
-        <label for="parcelas">Número de Parcelas:</label>
-        <input type="number" id="parcelas" min="1" max="120" placeholder="Ex: 120" required aria-label="Digite o número de parcelas">
+            <button type="submit">Calcular</button>
+        </form>
 
-        <button type="submit">Calcular</button>
-    </form>
+        <section id="resultado" aria-live="polite">
+            <h2>Simulação de parcelamento</h2>
 
-    <section id="resultado" aria-live="polite">
-        <h2>Simulação de parcelamento</h2>
+            <div class="resultado-bloco">
+                <h3>Entrada</h3>
+                <p><strong>Valor:</strong> <span id="entrada-resultado"></span></p>
+                <p><strong>Porcentagem:</strong> <span id="entrada-porcentagem"></span>%</p>
+            </div>
 
-        <div class="resultado-bloco">
-            <h3>Entrada</h3>
-            <p><strong>Valor:</strong> <span id="entrada-resultado"></span></p>
-            <p><strong>Porcentagem:</strong> <span id="entrada-porcentagem"></span>%</p>
+            <div class="resultado-bloco">
+                <h3>Parcelas</h3>
+                <p><strong>Sem juros:</strong> <span id="parcelas-sem-juros-qtd"></span><span id="parcelas-sem-juros"></span></p>
+                <p><strong>Com juros (1,5%):</strong> <span id="parcelas-com-juros-qtd"></span><span id="parcelas-com-juros"></span></p>
+            </div>
+
+            <div class="resultado-bloco total">
+                <h3>Total do parcelamento</h3>
+                <p><strong>Total a pagar:</strong> <span id="total-pago"></span></p>
+            </div>
+
+            <div class="botoes-acao">
+                <button id="nova-simulacao" class="btn-limpar">Nova Simulação</button>
+                <button id="compartilhar" class="btn-share">Compartilhar</button>
+            </div>
+        </section>
+
+        <!-- Modal de Compartilhamento -->
+        <div id="modal-compartilhar" class="modal">
+            <div class="modal-conteudo">
+                <h3>Compartilhar Simulação</h3>
+                <div class="botoes-modal">
+                    <a id="share-whatsapp" target="_blank" class="btn-whatsapp">📱 WhatsApp</a>
+                    <a id="share-email" target="_blank" class="btn-email">✉️ E-mail</a>
+                </div>
+                <button id="fechar-modal" class="btn-fechar">Fechar</button>
+            </div>
         </div>
+    </main>
 
-        <div class="resultado-bloco">
-            <h3>Parcelas</h3>
-            <p><strong>Sem juros:</strong> <span id="parcelas-sem-juros-qtd"></span><span id="parcelas-sem-juros"></span></p>
-            <p><strong>Com juros (1,5%):</strong> <span id="parcelas-com-juros-qtd"></span><span id="parcelas-com-juros"></span></p>
-        </div>
+        <!-- 🔹 FOOTER PROFISSIONAL -->
+    <footer class="footer">
+    <p>&copy; 2025 <strong>Nova Terra Adm</strong>. Todos os direitos reservados.</p>
+    </footer>
+    <!-- 🔹 FIM DO FOOTER -->
 
-        <div class="resultado-bloco total">
-            <h3>Total do parcelamento</h3>
-            <p><strong>Total a pagar:</strong> <span id="total-pago"></span></p>
-        </div>
 
-        <div class="botoes-acao">
-            <button id="nova-simulacao" class="btn-limpar">Nova Simulação</button>
-            <button id="compartilhar" class="btn-share">Compartilhar</button>
-        </div>
-
-        <!-- opções escondidas -->
-        <!--<div id="opcoes-compartilhar" class="opcoes-compartilhar">
-        <a id="share-whatsapp" target="_blank">📱 WhatsApp</a>
-        <a id="share-email" target="_blank">✉️ E-mail</a>
-        </div> -->
-    </section>
-
-    <!-- Modal de Compartilhamento -->
-    <div id="modal-compartilhar" class="modal">
-    <div class="modal-conteudo">
-        <h3>Compartilhar Simulação</h3>
-        <div class="botoes-modal">
-        <a id="share-whatsapp" target="_blank" class="btn-whatsapp">📱 WhatsApp</a>
-        <a id="share-email" target="_blank" class="btn-email">✉️ E-mail</a>
-        </div>
-        <button id="fechar-modal" class="btn-fechar">Fechar</button>
-    </div>
-    </div>
-
-        <script src="script.js"></script>
+    <script src="script.js"></script>
+    <script src="rasc-header.js"></script>
 </body>
 </html>

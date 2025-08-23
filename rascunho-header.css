@@ -1,0 +1,110 @@
+/* -------------------- RESET -------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* -------------------- HEADER -------------------- */
+header {
+  background: #ffffff; /* fundo do cabeçalho */
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+}
+
+.header-nav {
+  max-width: 1200px; /* largura máxima centralizada */
+  margin: 0 auto;
+  padding: 10px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  flex-wrap: wrap; /* permite quebra em telas menores */
+}
+
+/* -------------------- LOGO -------------------- */
+.logo img {
+  height: 80px;
+  width: auto;
+  display: block;
+}
+
+/* -------------------- TÍTULO -------------------- */
+.header-title h1 {
+  font-size: 1.3rem;
+  color: #333;
+  text-align: center;
+  flex: 1; /* ocupa espaço central */
+}
+
+/* -------------------- REDES SOCIAIS -------------------- */
+.icone-rede-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.botao-social,
+.btn-top-compartilhar {
+  background: #f4f4f9;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.2rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-social:hover,
+.btn-top-compartilhar:hover {
+  background: #ddd;
+  color: #000;
+}
+
+/* -------------------- RESPONSIVIDADE -------------------- */
+
+/* Tablets (até 900px) */
+@media (max-width: 900px) {
+  .header-title h1 {
+    font-size: 1.1rem;
+  }
+
+  .logo img {
+    height: 50px;
+  }
+}
+
+/* Smartphones (até 600px) */
+@media (max-width: 600px) {
+  .header-nav {
+    flex-direction: column; /* organiza em coluna */
+    align-items: center;
+    text-align: center;
+  }
+
+  .header-title h1 {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+
+  .icone-rede-social {
+    margin-top: 10px;
+    gap: 15px;
+  }
+
+  .botao-social,
+  .btn-top-compartilhar {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
