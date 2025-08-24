@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- faz parte do Font Awesome, uma biblioteca de ícones. Se a biblioteca não estiver carregada no seu projeto, os ícones não aparecerão.-->
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
      <meta property="og:image" content="https://novaterra-simular.vercel.app/imagens/capa-de-compartilhar2.jpg">
   <meta property="og:url" content="https://novaterra-simular.vercel.app/">
 
@@ -27,9 +29,9 @@
           />
         </a>
 
-        <div class="header-title">
-          <h1><strong>SIMULAÇÃO DE PARCELAMENTO</strong></h1>
-        </div>
+        <!--<div class="header-title info-financiamento">
+          <h1>Simule seu parcelamento</h1>
+        </div> -->
 
         <!-- 👇BOTÕES DAS REDES SOCIAIS-->
         <div class="icone-rede-social">
@@ -65,7 +67,7 @@
         <section class="info-financiamento">
             <p>
                 <strong>As 50 primeiras parcelas são isentas de juros!</strong>  
-                A partir da <strong>51ª parcela</strong>, será aplicada uma taxa de <strong>1,5% ao mês</strong>, calculada conforme <em>Tabela Price.</em>
+                A partir da <strong>51ª parcela</strong>, será aplicada uma taxa de <strong>1,5% ao mês</strong>, conforme <em>Tabela Price.</em>
             </p>
         </section>
         <!-- 🔹 fim do parágrafo -->
@@ -73,7 +75,7 @@
     <main class="container">
         <!-- 🔹 Parágrafo destacado no topo -->
 
-        <h1>Simulação aqui</h1>
+        <h1>Simular proposta aqui</h1>
       <form id="financiamento-form">
         <label for="valor-financiado">Valor atual (R$):</label>
         <!-- Agora é text para aceitar vírgula -->
@@ -94,7 +96,7 @@
             id="parcelas" 
             min="1" 
             max="420" 
-            placeholder="Min: 1 e Max: 420" 
+            placeholder="Ex:70 (Min: 1 e Max: 420)" 
             required 
             aria-label="Digite o número de parcelas">
 
@@ -121,8 +123,11 @@
             </div>
 
             <div class="botoes-acao">
-                <button id="nova-simulacao" class="btn-limpar">Nova Simulação</button>
-                <button id="compartilhar" class="btn-share">Compartilhar</button>
+                <button id="nova-simulacao" class="btn-limpar">
+                   <i class="fa-solid fa-rotate-left"></i> Nova Simulação
+                </button>
+                <button id="compartilhar" class="btn-share">Enviar Proposta  <i class="fa-solid fa-paper-plane"></i>
+                </button>
             </div>
         </section>
 
@@ -139,10 +144,19 @@
         </div>
     </main>
 
-        <!-- 🔹 FOOTER PROFISSIONAL -->
-    <footer class="footer">
-    <p>&copy; 2025 <strong>Nova Terra Adm</strong>. Todos os direitos reservados.</p>
-    </footer>
+    <!-- 🔹 FOOTER PROFISSIONAL -->
+     <footer>
+      <div class="footer-bottom">
+        <p style="text-align: center;">&copy; 2025 Nova Terra Adm. Todos os direitos       reservados.</p>
+        <p class="dev-credit">
+          Desenvolvido por 
+          <a href="https://www.instagram.com/wanderson.mo/" target="_blank">
+            <i class="fab fa-instagram"></i> Wanderson MO
+          </a>
+        </p>
+      </div>
+     </footer>
+    
     <!-- 🔹 FIM DO FOOTER -->
 
     <script src="script.js" defer></script>

@@ -5,6 +5,7 @@
   /* 🎨 Cores principais */
   --cor-primaria: #C94536;    /* Vermelho Terra */
   --cor-secundaria: #D19A4B;  /* Dourado/Mostarda */
+  --cor-terciaria: #c94536b4;    /* Vermelho Terra */
 
   /* 🌑 Apoio e estados */
   --cor-primaria-escura: #A83225; /* Hover/ativo vermelho */
@@ -28,7 +29,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--cor-fundo-claro);
     color: var(--cor-texto);
 
@@ -85,16 +86,16 @@ input {
 label {
     display: block;
     margin: 10px 0 5px;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 /* Botões */
 button {
     width: 100%;
-    padding: 12px;
+    padding: 7px;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--cor-branco);
     cursor: pointer;
     transition: background 0.3s ease;
@@ -112,6 +113,7 @@ button:hover {
     text-align: center;
     font-size: 1.5rem;
     margin: 5px 0 10px;
+    color: var(--cor-primaria);
 }
 
 /* ===============================
@@ -140,6 +142,7 @@ button:hover {
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    font-size: 3.5rem;
 }
 
 .resultado-bloco h3 {
@@ -178,19 +181,19 @@ button:hover {
 }
 
 .btn-limpar {
-    background-color: var(--cor-secundaria);
+    background-color: rgba(77, 77, 78, 0.774);
 }
 
 .btn-limpar:hover {
-    background-color: var(--cor-primaria);
+    background-color: rgba(77, 77, 78, 0.877);
 }
 
 .btn-share {
-    background-color: var(--cor-primaria);
+    background-color: rgba(46, 139, 23, 0.767);
 }
 
 .btn-share:hover {
-    background-color: var(--cor-primaria-escura);
+    background-color: rgba(46, 139, 23, 0.897);
 }
 
 /* ===============================
@@ -246,12 +249,12 @@ button:hover {
 .btn-whatsapp { background-color: #25D366; }
 .btn-whatsapp:hover { background-color: #1ebe57; }
 
-.btn-email { background-color: var(--cor-secundaria); }
-.btn-email:hover { background-color: var(--cor-primaria); }
+.btn-email { background-color: #0072C6; }
+.btn-email:hover { background-color: #005a9e; }
 
 .btn-fechar {
     padding: 10px 20px;
-    background: var(--cor-secundaria);
+    background: #6c757d;
     color: var(--cor-branco);
     border: none;
     border-radius: 6px;
@@ -260,7 +263,7 @@ button:hover {
 }
 
 .btn-fechar:hover {
-    background: var(--cor-primaria);
+    background: #495057;
 }
 
 @keyframes fadeIn {
@@ -296,20 +299,48 @@ button:hover {
 /* ===============================
    FOOTER
    =============================== */
-.footer {
-    width: 100%;
-    background: var(--cor-primaria);
-    color: var(--cor-branco);
+/* Rodapé inferior */
+   
+    
+
+  .footer-bottom {
     text-align: center;
-    padding: 15px 10px;
-    font-size: 0.95rem;
-    box-shadow: 0 -3px 8px rgba(0,0,0,0.1);
-    margin-top: auto;
+    margin-top: 20px;
+    border-top: 1px solid #c6cecc;
+    padding-top: 5px;
+    font-size: 13px;
+    color: #484d4c;
+
+    background: linear-gradient(to top, #c28a88, #f7f6f6);
+    box-shadow: 0 1px 1px rgba(75, 74, 74, 0.1);
+    color: #272424;
+    padding: 10px 10px 10px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 10px 20px rgba(8, 8, 8, 0.39);
+  }
+
+  .dev-credit a {
+    /*background: rgb(23, 37, 221); 
+    /* border: 1px solid var(--cor-borda); */
+    border-radius: 8%;
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    display: center;
+    font-size: 0.8rem;
+    color: rgb(0, 97, 243);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
 }
 
-.footer strong {
-    font-weight: bold;
+.dev-credit a:hover {
+  /* background: rgb(17, 52, 211); */
+  color: rgb(20, 171, 197);
+  border-color: var(--cor-primaria);
 }
+
+
 
 /* ===============================
    RESPONSIVIDADE GERAL
@@ -318,6 +349,13 @@ button:hover {
     h1 { font-size: 1.6rem; }
     .container { padding: 10px; }
     section.info-financiamento { margin: 10px 10px; }
+
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      padding: 0 10px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -328,6 +366,16 @@ button:hover {
     .header-title {
         font-size: 1.4rem;
     }
+
+    .botoes-acao {
+        flex-direction: row; /* mantém lado a lado */
+        justify-content: center; /* centraliza na tela pequena */
+    }
+
+    .botoes-acao button {
+        flex: 1;          /* botões ocupam mesmo espaço */
+        min-width: 120px; /* evita que fiquem muito pequenos */
+    }
 }
 
 @media (max-width: 480px) {
@@ -336,4 +384,14 @@ button:hover {
     .botoes-acao { flex-direction: column; }
     .botoes-acao button { width: 100%; }
     .header-title { font-size: 1rem; }
+
+    .botoes-acao {
+        flex-direction: row; /* mantém lado a lado */
+        justify-content: center; /* centraliza na tela pequena */
+    }
+
+    .botoes-acao button {
+        flex: 1;          /* botões ocupam mesmo espaço */
+        min-width: 120px; /* evita que fiquem muito pequenos */
+    }
 }

@@ -11,7 +11,7 @@ header {
 .header-nav {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 5px 20px;
 
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -21,10 +21,10 @@ header {
 
 /* Logo à esquerda */
 .logo { grid-column: 1; justify-self: start; }
-.logo img { height: 60px; width: auto; display: block; }
+.logo img { height: 70px; width: auto; display: block; }
 
 /* Título central */
-.header-title { grid-column: 2; justify-self: center; text-align: center; }
+/*.header-title { grid-column: 2; justify-self: center; text-align: center; }
 .header-title h1 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -33,10 +33,16 @@ header {
   line-height: 1.2;
   margin: 0;
   text-wrap: balance;
-}
+} */
 
 /* Ícones à direita */
-.icone-rede-social { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 12px; }
+.icone-rede-social { 
+  grid-column: 3; 
+  justify-self: end; 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
 
 .botao-social,
 .btn-top-compartilhar {
@@ -47,14 +53,15 @@ header {
   height: 42px;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.2rem;
-  color: var(--cor-texto-secundario);
+  color: var(--cor-secundaria);
   cursor: pointer;
   transition: all 0.25s ease;
+  text-decoration: none;
 }
 
 .botao-social:hover,
 .btn-top-compartilhar:hover {
-  background: var(--cor-primaria);
+  background: var(--cor-terciaria);
   color: var(--cor-branco);
   border-color: var(--cor-primaria);
 }
