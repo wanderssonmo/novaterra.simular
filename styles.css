@@ -311,7 +311,7 @@ button:hover {
     font-size: 13px;
     color: #484d4c;
 
-    background: linear-gradient(to top, #c28a88, #f7f6f6);
+    background: linear-gradient(to top, #c94536af, #eed9d8);
     box-shadow: 0 1px 1px rgba(75, 74, 74, 0.1);
     color: #272424;
     padding: 10px 10px 10px;
@@ -356,6 +356,8 @@ button:hover {
       gap: 30px;
       padding: 0 10px;
     }
+
+    
 }
 
 @media (max-width: 600px) {

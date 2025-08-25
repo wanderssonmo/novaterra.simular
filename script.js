@@ -97,15 +97,15 @@ document.getElementById('compartilhar').addEventListener('click', () => {
   const total = document.getElementById('total-pago').textContent.trim();
 
   // 🔹 Monta mensagem com \n (apenas)
-  let mensagem = `💰 Simulação de Parcelamento:\n💲 Valor Atual: ${valorAtualFormatado}\n📥 Entrada: ${entrada} (${entradaPorc}%)\n➡️ Parcelas sem juros: ${semJuros}`;
+  let mensagem = `💰 Simulação de Parcelamento:\n💲 Valor Atual: ${valorAtualFormatado}\n\n📥 Entrada: ${entrada} (${entradaPorc}%)\n➡️ Parcelas sem juros: ${semJuros}`;
 
   if (comJuros && comJuros !== "Não possui!") {
     mensagem += `\n➡️ Parcelas com juros: ${comJuros}`;
   }
 
-  mensagem += `\n✅ Total a pagar: ${total}`;
+  mensagem += `\n\n✅ Total a pagar: ${total}`;
 
-  mensagem += `\n\n📑 Esta simulação foi gerada através do portal oficial da Nova Terra.\n👉 Acesse aqui: https://novaterra-simular.vercel.app/`;
+  // mensagem += `\n\n📑 Esta simulação foi gerada através do portal oficial da Nova Terra.\n👉 Acesse aqui: https://novaterra-simular.vercel.app/`;
 
   // 🔹 Codifica para WhatsApp (mantém emojis intactos)
   const mensagemWhatsApp = encodeURIComponent(mensagem);
