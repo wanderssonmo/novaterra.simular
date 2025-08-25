@@ -82,38 +82,46 @@ document.getElementById('nova-simulacao').addEventListener('click', function() {
 
 //
 document.getElementById('compartilhar').addEventListener('click', () => {
-  // 🔹 Captura o valor do input e converte para número
-  const valorAtualInput = document.getElementById('valor-financiado').value;
-  const valorAtual = parseFloat(valorAtualInput.replace(/\./g, "").replace(",", "."));
-  
-  // 🔹 Formata no padrão BRL (R$ 10.000,00)
+  // 🔹 Captura e trata o valor atual
+  const valorAtualInput = document.getElementById('valor-financiado').value.trim();
+  const valorAtual = parseFloat(valorAtualInput.replace(/\./g, "").replace(",", ".")) || 0;
+
+  // 🔹 Formata para BRL (R$ 10.000,00)
   const valorAtualFormatado = formatarMoeda(valorAtual);
 
-  const entrada = document.getElementById('entrada-resultado').textContent;
-  const entradaPorc = document.getElementById('entrada-porcentagem').textContent;
-  const semJuros = document.getElementById('parcelas-sem-juros-qtd').textContent + document.getElementById('parcelas-sem-juros').textContent;
-  const comJuros = document.getElementById('parcelas-com-juros-qtd').textContent + document.getElementById('parcelas-com-juros').textContent;
-  const total = document.getElementById('total-pago').textContent;
+  // 🔹 Captura dados da simulação
+  const entrada = document.getElementById('entrada-resultado').textContent.trim();
+  const entradaPorc = document.getElementById('entrada-porcentagem').textContent.trim();
+  const semJuros = `${document.getElementById('parcelas-sem-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-sem-juros').textContent.trim()}`;
+  const comJuros = `${document.getElementById('parcelas-com-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-com-juros').textContent.trim()}`;
+  const total = document.getElementById('total-pago').textContent.trim();
 
-  // 🔹 Monta mensagem incluindo "Valor Atual" já formatado
-  let mensagem = `💰 Simulação de Parcelamento:%0A 📌 Valor Atual: ${valorAtualFormatado}%0A 📌 Entrada: ${entrada} (${entradaPorc}%)%0A 📌 Parcelas sem juros: ${semJuros}`;
+  // 🔹 Monta mensagem com \n (apenas)
+  let mensagem = `💰 Simulação de Parcelamento:\n💲 Valor Atual: ${valorAtualFormatado}\n📥 Entrada: ${entrada} (${entradaPorc}%)\n➡️ Parcelas sem juros: ${semJuros}`;
 
-  if (comJuros && comJuros.trim() !== "Não possui!") {
-    mensagem += `%0A 📌 Parcelas com juros: ${comJuros}`;
+  if (comJuros && comJuros !== "Não possui!") {
+    mensagem += `\n➡️ Parcelas com juros: ${comJuros}`;
   }
 
-  mensagem += `%0A ✅ Total a pagar: ${total}`;
+  mensagem += `\n✅ Total a pagar: ${total}`;
 
-  // 🔹 Encode para não quebrar com caracteres especiais
-  const encodedMsg = encodeURIComponent(mensagem);
+  mensagem += `\n\n📑 Esta simulação foi gerada através do portal oficial da Nova Terra.\n👉 Acesse aqui: https://novaterra-simular.vercel.app/`;
 
-  document.getElementById("share-whatsapp").href = `https://wa.me/?text=${encodedMsg}`;
-  document.getElementById("share-email").href = `mailto:?subject=Simulação de Parcelamento&body=${encodedMsg}`;
+  // 🔹 Codifica para WhatsApp (mantém emojis intactos)
+  const mensagemWhatsApp = encodeURIComponent(mensagem);
+
+  // 🔹 Email: substitui apenas quebras de linha por %0A (mais legível no corpo)
+  const mensagemEmail = mensagem.replace(/\n/g, "%0A");
+
+  // 🔹 Define os links
+  document.getElementById("share-whatsapp").href = `https://wa.me/?text=${mensagemWhatsApp}`;
+  document.getElementById("share-email").href = `mailto:?subject=Simulação de Parcelamento&body=${mensagemEmail}`;
+
+  // 🔹 Exibe modal de compartilhamento
   document.getElementById("modal-compartilhar").style.display = "flex";
 });
 
 //
-
 
 
 document.getElementById('fechar-modal').addEventListener('click', () => {
