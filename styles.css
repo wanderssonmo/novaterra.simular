@@ -49,6 +49,7 @@ body {
     width: 100%;
     max-width: 450px;
     margin: 20px auto;
+    margin-bottom: 5px;
 }
 
 main.container {
@@ -305,16 +306,16 @@ button:hover {
 
   .footer-bottom {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 15px;
     border-top: 1px solid #c6cecc;
     padding-top: 5px;
-    font-size: 13px;
+    font-size: 10px;
     color: #484d4c;
 
     background: linear-gradient(to top, #c94536af, #eed9d8);
     box-shadow: 0 1px 1px rgba(75, 74, 74, 0.1);
     color: #272424;
-    padding: 10px 10px 10px;
+    padding: 5px;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 10px 20px rgba(8, 8, 8, 0.39);
   }
@@ -327,7 +328,7 @@ button:hover {
     width: 10px;
     height: 10px;
     display: center;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: rgb(0, 97, 243);
     cursor: pointer;
     transition: all 0.25s ease;
@@ -356,6 +357,12 @@ button:hover {
       gap: 30px;
       padding: 0 10px;
     }
+
+    button.calcular {
+    font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
+}
+    
 
 }
 
