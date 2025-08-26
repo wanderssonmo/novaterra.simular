@@ -8,31 +8,32 @@ const formatarMoeda = valor => {
 // 🔹 Função para formatar enquanto digita
 function aplicarMascaraMoeda(input) {
   input.addEventListener("input", () => {
-    let valor = input.value.replace(/\D/g, "");
+    let valor = input.value.replace(/\D/g, ""); // mantém só números
     if (valor === "") {
       input.value = "";
       return;
     }
-    valor = (parseInt(valor) / 100).toFixed(2);
-    valor = valor.replace(".", ",");
-    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    valor = (parseInt(valor) / 100).toFixed(2); // adiciona casas decimais
+    valor = valor.replace(".", ","); // vírgula nos centavos
+    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // pontos de milhar
     input.value = valor;
   });
 }
 
-// Aplica máscara nos campos de valores
+// aplica máscara nos campos de valores
 aplicarMascaraMoeda(document.getElementById("valor-financiado"));
 aplicarMascaraMoeda(document.getElementById("entrada-input"));
 
-document.getElementById("financiamento-form").addEventListener("submit", function (event) {
+document.getElementById('financiamento-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  const valorFinanciado = parseFloat(document.getElementById("valor-financiado").value.replace(/\./g, "").replace(",", ".")) || 0;
-  const entrada = parseFloat(document.getElementById("entrada-input").value.replace(/\./g, "").replace(",", ".")) || 0;
-  const numParcelas = parseInt(document.getElementById("parcelas").value);
+  // 🔹 Convertendo valores formatados de volta para número
+  const valorFinanciado = parseFloat(document.getElementById('valor-financiado').value.replace(/\./g, "").replace(",", "."));
+  const entrada = parseFloat(document.getElementById('entrada-input').value.replace(/\./g, "").replace(",", "."));
+  const numParcelas = parseInt(document.getElementById('parcelas').value);
 
-  if (isNaN(valorFinanciado) || valorFinanciado <= 0 ||
-      isNaN(entrada) || entrada < 0 || entrada >= valorFinanciado ||
+  if (isNaN(valorFinanciado) || valorFinanciado <= 0 || 
+      isNaN(entrada) || entrada < 0 || entrada >= valorFinanciado || 
       isNaN(numParcelas) || numParcelas <= 0 || numParcelas > 420) {
     alert("Por favor, insira valores válidos. A entrada deve ser menor que o valor financiado.");
     return;
@@ -53,116 +54,96 @@ document.getElementById("financiamento-form").addEventListener("submit", functio
     parcelasComJuros = (restante * (juros * fator)) / (fator - 1);
   }
 
-  document.getElementById("entrada-resultado").textContent = formatarMoeda(entrada);
-  document.getElementById("entrada-porcentagem").textContent = entradaPercentual.toFixed(2);
+  document.getElementById('entrada-resultado').textContent = formatarMoeda(entrada);
+  document.getElementById('entrada-porcentagem').textContent = entradaPercentual.toFixed(2);
 
-  document.getElementById("parcelas-sem-juros-qtd").textContent = `${qtdParcelasSemJuros}x de `;
-  document.getElementById("parcelas-sem-juros").textContent = formatarMoeda(parcelasSemJuros);
+  document.getElementById('parcelas-sem-juros-qtd').textContent = `${qtdParcelasSemJuros}x de `;
+  document.getElementById('parcelas-sem-juros').textContent = formatarMoeda(parcelasSemJuros);
 
   if (numParcelas > 50) {
-    document.getElementById("parcelas-com-juros-qtd").textContent = `${qtdParcelasComJuros}x de `;
-    document.getElementById("parcelas-com-juros").textContent = formatarMoeda(parcelasComJuros);
+    document.getElementById('parcelas-com-juros-qtd').textContent = `${qtdParcelasComJuros}x de `;
+    document.getElementById('parcelas-com-juros').textContent = formatarMoeda(parcelasComJuros);
   } else {
-    document.getElementById("parcelas-com-juros-qtd").textContent = "";
-    document.getElementById("parcelas-com-juros").textContent = "Não possui!";
+    document.getElementById('parcelas-com-juros-qtd').textContent = "";
+    document.getElementById('parcelas-com-juros').textContent = "Não possui!";
   }
 
   const totalPago = entrada + (parcelasSemJuros * qtdParcelasSemJuros) + (parcelasComJuros * qtdParcelasComJuros);
-  document.getElementById("total-pago").textContent = formatarMoeda(totalPago);
-  document.getElementById("resultado").style.display = "block";
-
-  // 🔹 Exibe botão PDF após simulação
-  document.getElementById("share-pdf").style.display = "inline-block";
+  document.getElementById('total-pago').textContent = formatarMoeda(totalPago);
+  document.getElementById('resultado').style.display = 'block';
 });
 
-document.getElementById("nova-simulacao").addEventListener("click", function () {
-  document.getElementById("valor-financiado").value = "";
-  document.getElementById("entrada-input").value = "";
-  document.getElementById("parcelas").value = "";
-  document.getElementById("resultado").style.display = "none";
-
-  // 🔹 Oculta botão PDF novamente
-  document.getElementById("share-pdf").style.display = "none";
+document.getElementById('nova-simulacao').addEventListener('click', function() {
+  document.getElementById('valor-financiado').value = "";
+  document.getElementById('entrada-input').value = "";
+  document.getElementById('parcelas').value = "";
+  document.getElementById('resultado').style.display = 'none';
 });
 
-document.getElementById("compartilhar").addEventListener("click", () => {
-  const valorAtualInput = document.getElementById("valor-financiado").value.trim();
+//
+document.getElementById('compartilhar').addEventListener('click', () => {
+  // 🔹 Captura e trata o valor atual
+  const valorAtualInput = document.getElementById('valor-financiado').value.trim();
   const valorAtual = parseFloat(valorAtualInput.replace(/\./g, "").replace(",", ".")) || 0;
+
+  // 🔹 Formata para BRL (R$ 10.000,00)
   const valorAtualFormatado = formatarMoeda(valorAtual);
 
-  const entrada = document.getElementById("entrada-resultado").textContent.trim();
-  const entradaPorc = document.getElementById("entrada-porcentagem").textContent.trim();
-  const semJuros = `${document.getElementById("parcelas-sem-juros-qtd").textContent.trim()}${document.getElementById("parcelas-sem-juros").textContent.trim()}`;
-  const comJuros = `${document.getElementById("parcelas-com-juros-qtd").textContent.trim()}${document.getElementById("parcelas-com-juros").textContent.trim()}`;
-  const total = document.getElementById("total-pago").textContent.trim();
+  // 🔹 Captura dados da simulação
+  const entrada = document.getElementById('entrada-resultado').textContent.trim();
+  const entradaPorc = document.getElementById('entrada-porcentagem').textContent.trim();
+  const semJuros = `${document.getElementById('parcelas-sem-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-sem-juros').textContent.trim()}`;
+  const comJuros = `${document.getElementById('parcelas-com-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-com-juros').textContent.trim()}`;
+  const total = document.getElementById('total-pago').textContent.trim();
 
-  let mensagem = `*Simulação de Parcelamento:*\nValor Atual: ${valorAtualFormatado}\n\nEntrada: ${entrada} (${entradaPorc}%)\nParcelas sem juros: ${semJuros}`;
+  // 🔹 Monta mensagem com \n (apenas)
+  let mensagem = `*Simulação de Parcelamento:*\n Valor Atual: ${valorAtualFormatado}\n\n Entrada: ${entrada} (${entradaPorc}%)\ Parcelas sem juros: ${semJuros}`;
 
   if (comJuros && comJuros !== "Não possui!") {
-    mensagem += `\nParcelas com juros: ${comJuros}`;
+    mensagem += `\n Parcelas com juros: ${comJuros}`;
   }
 
-  mensagem += `\n\nTotal a pagar: ${total}`;
+  mensagem += `\n\n Total a pagar: ${total}`;
 
+  // mensagem += `\n\n📑 Esta simulação foi gerada através do portal oficial da Nova Terra.\n👉 Acesse aqui: https://novaterra-simular.vercel.app/`;
+
+  // 🔹 Codifica para WhatsApp (mantém emojis intactos)
   const mensagemWhatsApp = encodeURIComponent(mensagem);
+
+  // 🔹 Email: substitui apenas quebras de linha por %0A (mais legível no corpo)
   const mensagemEmail = mensagem.replace(/\n/g, "%0A");
 
+  // 🔹 Define os links
   document.getElementById("share-whatsapp").href = `https://wa.me/?text=${mensagemWhatsApp}`;
   document.getElementById("share-email").href = `mailto:?subject=Simulação de Parcelamento&body=${mensagemEmail}`;
 
+  // 🔹 Exibe modal de compartilhamento
   document.getElementById("modal-compartilhar").style.display = "flex";
 });
 
-// 🔹 Exportar PDF
-document.getElementById("share-pdf").addEventListener("click", () => {
-  const elemento = document.getElementById("resultado");
+//
 
-  if (!elemento || elemento.style.display === "none") {
-    alert("Por favor, faça a simulação antes de salvar em PDF.");
-    return;
-  }
+// EXPORTAR PDF
 
-  const agora = new Date();
-  const dataHora = agora.toLocaleString("pt-BR");
 
-  const opt = {
-    margin: 10,
-    filename: `simulacao-${agora.getTime()}.pdf`,
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  };
+// EXPORTAR PDF
 
-  html2pdf().from(elemento).set(opt).toPdf().get("pdf").then((pdf) => {
-    const totalPaginas = pdf.internal.getNumberOfPages();
 
-    for (let i = 1; i <= totalPaginas; i++) {
-      pdf.setPage(i);
-
-      pdf.setFontSize(20);
-      pdf.setTextColor(200, 200, 200);
-      pdf.setFont("helvetica", "bold");
-
-      for (let y = 40; y < 297; y += 50) {
-        pdf.text("Nova Terra - https://novaterra-simular.vercel.app", 30, y, { angle: 30 });
-      }
-
-      pdf.setFontSize(10);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text(`Gerado em: ${dataHora}`, 10, 290);
-    }
-  }).save();
-});
-
-document.getElementById("fechar-modal").addEventListener("click", () => {
+document.getElementById('fechar-modal').addEventListener('click', () => {
   document.getElementById("modal-compartilhar").style.display = "none";
 });
 
-window.addEventListener("click", (event) => {
+window.addEventListener('click', (event) => {
   const modal = document.getElementById("modal-compartilhar");
-  if (event.target === modal) modal.style.display = "none";
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
 });
 
-document.getElementById("btn-compartilhar-header").addEventListener("click", () => {
+// Botão Compartilhar do Header - abre o mesmo modal
+document.getElementById('btn-compartilhar-header').addEventListener('click', () => {
   document.getElementById("modal-compartilhar").style.display = "flex";
 });
+
+
+
