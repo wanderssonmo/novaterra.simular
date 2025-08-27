@@ -1,3 +1,8 @@
+// =============================
+// 🔹 Funções Utilitárias
+// =============================
+
+// Formata valores em BRL (ex: R$ 1.500,00)
 const formatarMoeda = valor => {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -5,29 +10,36 @@ const formatarMoeda = valor => {
   }).format(valor);
 };
 
-// 🔹 Função para formatar enquanto digita
+// Aplica máscara monetária em tempo real no input
 function aplicarMascaraMoeda(input) {
   input.addEventListener("input", () => {
     let valor = input.value.replace(/\D/g, ""); // mantém só números
+
     if (valor === "") {
       input.value = "";
       return;
     }
-    valor = (parseInt(valor) / 100).toFixed(2); // adiciona casas decimais
-    valor = valor.replace(".", ","); // vírgula nos centavos
+
+    valor = (parseInt(valor) / 100).toFixed(2);   // casas decimais
+    valor = valor.replace(".", ",");              // vírgula nos centavos
     valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // pontos de milhar
+
     input.value = valor;
   });
 }
 
-// aplica máscara nos campos de valores
+// =============================
+// 🔹 Aplicação da máscara nos campos
+// =============================
 aplicarMascaraMoeda(document.getElementById("valor-financiado"));
 aplicarMascaraMoeda(document.getElementById("entrada-input"));
 
+// =============================
+// 🔹 Lógica principal do formulário
+// =============================
 document.getElementById('financiamento-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  // 🔹 Convertendo valores formatados de volta para número
   const valorFinanciado = parseFloat(document.getElementById('valor-financiado').value.replace(/\./g, "").replace(",", "."));
   const entrada = parseFloat(document.getElementById('entrada-input').value.replace(/\./g, "").replace(",", "."));
   const numParcelas = parseInt(document.getElementById('parcelas').value);
@@ -39,40 +51,77 @@ document.getElementById('financiamento-form').addEventListener('submit', functio
     return;
   }
 
+  // =============================
+  // 🔹 NOVA LÓGICA DE CÁLCULO (com arredondamento por parcela)
+  // =============================
+
+  // Função local de arredondamento para 2 casas
+  const arredondar = (v) => Math.round((v + Number.EPSILON) * 100) / 100;
+
+  // 1. Restante após a entrada
   const restante = valorFinanciado - entrada;
-  const parcelasSemJuros = restante / numParcelas;
-  const entradaPercentual = (entrada / valorFinanciado) * 100;
 
-  let parcelasComJuros = 0;
-  let qtdParcelasSemJuros = Math.min(numParcelas, 50);
-  let qtdParcelasComJuros = 0;
+  // 2. Parcela sem juros (dividindo pelo total de parcelas)
+  //    OBS: dividimos pelo total de parcelas conforme sua regra
+  const parcelaSemJuros = arredondar(restante / numParcelas);
 
-  if (numParcelas > 50) {
-    qtdParcelasComJuros = numParcelas - 50;
-    const juros = 1.5 / 100;
+  // 3. Total pago nas 50 primeiras parcelas sem juros (ou menos, se numParcelas < 50)
+  const qtdParcelasSemJuros = Math.min(numParcelas, 50);
+  const totalParcelasSemJuros = arredondar(parcelaSemJuros * qtdParcelasSemJuros);
+
+  // 4. Saldo restante que será pago com juros
+  let saldoComJuros = restante - totalParcelasSemJuros;
+  // Evita saldo negativo por conta de arredondamento
+  if (saldoComJuros < 0) saldoComJuros = 0;
+
+  // 5. Parcelas com juros (PRICE) — sobre o saldoComJuros e quantidade acima de 50
+  const qtdParcelasComJuros = numParcelas - qtdParcelasSemJuros;
+  let parcelaComJuros = 0;
+  let totalParcelasComJuros = 0;
+
+  if (qtdParcelasComJuros > 0 && saldoComJuros > 0) {
+    const juros = 0.015; // 1,5% ao mês
     const fator = Math.pow(1 + juros, qtdParcelasComJuros);
-    parcelasComJuros = (restante * (juros * fator)) / (fator - 1);
+    const parcelaComJurosRaw = (saldoComJuros * (juros * fator)) / (fator - 1);
+    parcelaComJuros = arredondar(parcelaComJurosRaw);
+    totalParcelasComJuros = arredondar(parcelaComJuros * qtdParcelasComJuros);
+  } else {
+    // não há parcelas com juros
+    parcelaComJuros = 0;
+    totalParcelasComJuros = 0;
   }
 
+  // 6. Percentual de entrada
+  const entradaPercentual = (entrada / valorFinanciado) * 100;
+
+  // 7. Total geral — calculado a partir da soma das parcelas arredondadas + entrada
+  const totalPago = arredondar(entrada + totalParcelasSemJuros + totalParcelasComJuros);
+
+  // =============================
+  // 🔹 Atualização do DOM
+  // =============================
   document.getElementById('entrada-resultado').textContent = formatarMoeda(entrada);
   document.getElementById('entrada-porcentagem').textContent = entradaPercentual.toFixed(2);
 
   document.getElementById('parcelas-sem-juros-qtd').textContent = `${qtdParcelasSemJuros}x de `;
-  document.getElementById('parcelas-sem-juros').textContent = formatarMoeda(parcelasSemJuros);
+  document.getElementById('parcelas-sem-juros').textContent = formatarMoeda(parcelaSemJuros);
 
-  if (numParcelas > 50) {
+  if (qtdParcelasComJuros > 0 && parcelaComJuros > 0) {
     document.getElementById('parcelas-com-juros-qtd').textContent = `${qtdParcelasComJuros}x de `;
-    document.getElementById('parcelas-com-juros').textContent = formatarMoeda(parcelasComJuros);
+    document.getElementById('parcelas-com-juros').textContent = formatarMoeda(parcelaComJuros);
   } else {
     document.getElementById('parcelas-com-juros-qtd').textContent = "";
     document.getElementById('parcelas-com-juros').textContent = "Não possui!";
   }
 
-  const totalPago = entrada + (parcelasSemJuros * qtdParcelasSemJuros) + (parcelasComJuros * qtdParcelasComJuros);
   document.getElementById('total-pago').textContent = formatarMoeda(totalPago);
+
   document.getElementById('resultado').style.display = 'block';
 });
 
+// =============================
+// 🔹 Botão Nova Simulação
+// =============================
 document.getElementById('nova-simulacao').addEventListener('click', function() {
   document.getElementById('valor-financiado').value = "";
   document.getElementById('entrada-input').value = "";
@@ -80,55 +129,40 @@ document.getElementById('nova-simulacao').addEventListener('click', function() {
   document.getElementById('resultado').style.display = 'none';
 });
 
-//
+// =============================
+// 🔹 Compartilhamento (WhatsApp / Email)
+// =============================
 document.getElementById('compartilhar').addEventListener('click', () => {
-  // 🔹 Captura e trata o valor atual
   const valorAtualInput = document.getElementById('valor-financiado').value.trim();
   const valorAtual = parseFloat(valorAtualInput.replace(/\./g, "").replace(",", ".")) || 0;
-
-  // 🔹 Formata para BRL (R$ 10.000,00)
   const valorAtualFormatado = formatarMoeda(valorAtual);
 
-  // 🔹 Captura dados da simulação
   const entrada = document.getElementById('entrada-resultado').textContent.trim();
   const entradaPorc = document.getElementById('entrada-porcentagem').textContent.trim();
   const semJuros = `${document.getElementById('parcelas-sem-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-sem-juros').textContent.trim()}`;
   const comJuros = `${document.getElementById('parcelas-com-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-com-juros').textContent.trim()}`;
   const total = document.getElementById('total-pago').textContent.trim();
 
-  // 🔹 Monta mensagem com \n (apenas)
-  let mensagem = `*Simulação de Parcelamento:*\n Valor Atual: ${valorAtualFormatado}\n\n Entrada: ${entrada} (${entradaPorc}%)\ Parcelas sem juros: ${semJuros}`;
+  let mensagem = `*Simulação de Parcelamento:*\n\n *Valor Atual:* ${valorAtualFormatado}\n *Entrada:* ${entrada} (${entradaPorc}%)\n *Parcelas sem juros:* ${semJuros}`;
 
   if (comJuros && comJuros !== "Não possui!") {
-    mensagem += `\n Parcelas com juros: ${comJuros}`;
+    mensagem += `\n *Parcelas com juros:* ${comJuros}`;
   }
 
-  mensagem += `\n\n Total a pagar: ${total}`;
+  mensagem += `\n\n *Total a pagar:* ${total}`;
 
-  // mensagem += `\n\n📑 Esta simulação foi gerada através do portal oficial da Nova Terra.\n👉 Acesse aqui: https://novaterra-simular.vercel.app/`;
-
-  // 🔹 Codifica para WhatsApp (mantém emojis intactos)
   const mensagemWhatsApp = encodeURIComponent(mensagem);
-
-  // 🔹 Email: substitui apenas quebras de linha por %0A (mais legível no corpo)
   const mensagemEmail = mensagem.replace(/\n/g, "%0A");
 
-  // 🔹 Define os links
   document.getElementById("share-whatsapp").href = `https://wa.me/?text=${mensagemWhatsApp}`;
   document.getElementById("share-email").href = `mailto:?subject=Simulação de Parcelamento&body=${mensagemEmail}`;
 
-  // 🔹 Exibe modal de compartilhamento
   document.getElementById("modal-compartilhar").style.display = "flex";
 });
 
-//
-
-// EXPORTAR PDF
-
-
-// EXPORTAR PDF
-
-
+// =============================
+// 🔹 Modal Compartilhamento
+// =============================
 document.getElementById('fechar-modal').addEventListener('click', () => {
   document.getElementById("modal-compartilhar").style.display = "none";
 });
@@ -140,10 +174,6 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Botão Compartilhar do Header - abre o mesmo modal
 document.getElementById('btn-compartilhar-header').addEventListener('click', () => {
   document.getElementById("modal-compartilhar").style.display = "flex";
 });
-
-
-

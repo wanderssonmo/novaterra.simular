@@ -77,7 +77,7 @@
 
         <h1>Simular proposta aqui</h1>
       <form id="financiamento-form">
-        <label for="valor-financiado">Valor atual (R$):</label>
+        <label for="valor-financiado">Valor do terreno (R$):</label>
         <!-- Agora é text para aceitar vírgula -->
         <input 
             type="text" id="valor-financiado" placeholder="Ex: 10.000,00" required aria-label="Digite o valor do financiamento">
@@ -122,19 +122,13 @@
                 <p><strong>Total a pagar:</strong> <span id="total-pago"></span></p>
             </div>
 
-            <div class="botoes-acao">
+            <div class="botoes-acao" id>
                 <button id="nova-simulacao" class="btn-limpar">
                    <i class="fa-solid fa-rotate-left"></i> Nova Simulação
                 </button>
                 <button id="compartilhar" class="btn-share">Enviar Proposta  <i class="fa-solid fa-paper-plane"></i>
                 </button>
-                <button id="btn-imprimir" type="button">
-                  🖨️ Imprimir / Salvar PDF
-                </button>
-
-                <button id="btn-pdf" type="button">
-                  📄 Gerar PDF Estilizado
-                </button>
+                <button id="btn-exportar-pdf">📑 Salvar PDF ou 🖨️ Imprimir</button>
             </div>
         </section>
 
@@ -154,21 +148,23 @@
     <!-- 🔹 FOOTER PROFISSIONAL -->
      <footer>
       <div class="footer-bottom">
-        <p style="text-align: center;">&copy; 2025 Nova Terra Adm. Todos os direitos       reservados.</p>
+        <p style="text-align: center;">&copy; 2025 Nova Terra Adm. Todos os direitos reservados.</p>
         <p class="dev-credit">
           Desenvolvido por 
           <a href="https://www.instagram.com/wandersson.mo/" target="_blank">
-            <i class="fab fa-instagram"></i> Wanderson MO
+            <i class="fab fa-instagram"></i> Wandersson MO
           </a>
         </p>
       </div>
      </footer>
     
     <!-- 🔹 FIM DO FOOTER -->
-
-    <script src="script.js" defer></script>
+    
+    <!-- Script principal -->
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="exporta-pdf.js"></script>
     <script src="rasc-header.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>
 </html>
