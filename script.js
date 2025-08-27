@@ -143,13 +143,13 @@ document.getElementById('compartilhar').addEventListener('click', () => {
   const comJuros = `${document.getElementById('parcelas-com-juros-qtd').textContent.trim()} ${document.getElementById('parcelas-com-juros').textContent.trim()}`;
   const total = document.getElementById('total-pago').textContent.trim();
 
-  let mensagem = `*Simulação de Parcelamento:*\n\n *Valor Atual:* ${valorAtualFormatado}\n *Entrada:* ${entrada} (${entradaPorc}%)\n *Parcelas sem juros:* ${semJuros}`;
+  let mensagem = `*Simulação de Parcelamento:*\n\n*Valor do terreno:* ${valorAtualFormatado}\n*Entrada:* ${entrada} (${entradaPorc}%)\n*Parcelas sem juros:* ${semJuros}`;
 
   if (comJuros && comJuros !== "Não possui!") {
-    mensagem += `\n *Parcelas com juros:* ${comJuros}`;
+    mensagem += `\n*Parcelas com juros:* ${comJuros}`;
   }
 
-  mensagem += `\n\n *Total a pagar:* ${total}`;
+  mensagem += `\n\n*Total a pagar:* ${total}`;
 
   const mensagemWhatsApp = encodeURIComponent(mensagem);
   const mensagemEmail = mensagem.replace(/\n/g, "%0A");

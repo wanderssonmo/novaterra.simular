@@ -195,7 +195,7 @@ const generatePDFHtml = (data) => {
         </div>
       </div>
 
-      <footer>
+      <footer stily="width: 0.9rem;">
         <p>Gerado em ${new Date().toLocaleString("pt-BR")} — <a href="https://novaterra-simular.vercel.app" target="_blank">novaterra-simular.vercel.app</a></p>
       </footer>
     </div>

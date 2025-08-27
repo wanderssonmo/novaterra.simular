@@ -361,6 +361,7 @@ button:hover {
     button.calcular {
     font-size: 1.2rem;
     font-family: 'Montserrat', sans-serif;
+    width: 0.9rem;
 }
     
 
