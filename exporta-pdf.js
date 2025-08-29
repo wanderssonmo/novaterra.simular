@@ -150,7 +150,7 @@ const generatePDFHtml = (data) => {
           left: 0;
           right: 0;
           bottom: 0;
-          opacity: 0.05;
+          opacity: 0.07;
           background-image: url('imagens/marca-agua.png');
           background-repeat: repeat;
           background-size: 80px 80px; /* tamanho da marca d'água */
