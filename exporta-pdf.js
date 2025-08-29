@@ -110,7 +110,7 @@ const generatePDFHtml = (data) => {
   const valorAtualFormatado = formatarMoedaBR(data.valorAtual);
 
   const html = `
-    <div style="width: 190mm; min-height: 287mm; background: #fff; font-family: 'Montserrat', Arial, sans-serif; padding: 20px; box-sizing: border-box; position: relative;">
+    <div style="width: 190mm; min-height: 277mm; background: #fff; font-family: 'Montserrat', Arial, sans-serif; padding: 20px; box-sizing: border-box; position: relative;">
       <style>
         h2 {
           text-align: center;
