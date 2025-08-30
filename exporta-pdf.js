@@ -146,14 +146,14 @@ const generatePDFHtml = (data) => {
         }
         .watermark {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
+          top: 15px;
+          left: 15px;
+          right: 15px;
           bottom: 0;
           opacity: 0.07;
           background-image: url('imagens/marca-agua.png');
           background-repeat: repeat;
-          background-size: 80px 80px; /* tamanho da marca d'água */
+          background-size: 680px 420px; /* tamanho da marca d'água */
           z-index: 0;
         }
         footer {
